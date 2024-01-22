@@ -20,6 +20,7 @@ def flujo_envio():
     
 
 def load_products():
+    print(f" INICIO LOAD PRODUCTS")
     dbconnect = get_connect_mongo()
     dbname=dbconnect["retail_db"]
     collection_name = dbname["products"] 
