@@ -21,4 +21,4 @@ with DAG(
         python_callable=flujo_envio,
         dag=dag
     )
-    envio_correo>>envio_c_2orreo
+    envio_correo>>envio_correo_2
