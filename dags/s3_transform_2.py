@@ -6,7 +6,7 @@ from datetime import datetime
 import os
 
 def flujo_envio():
-    print(f"¡{message} exitosamente!")
+    print(" exitosamente!")
 
 with DAG(
     dag_id="test_print", schedule="@once", start_date=datetime(2024, 2, 1), is_paused_upon_creation=False, catchup=False
@@ -16,3 +16,5 @@ with DAG(
         python_callable=flujo_envio,
         dag=dag
     )
+    
+    envio_correo
