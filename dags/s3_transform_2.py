@@ -16,9 +16,11 @@ def get_connect_mongo():
 
     return client
     
-def flujo_envio():
-    print(" exitosamente!")
-    
+def start_process():
+    print(" INICIO EL PROCESO!")
+
+def end_process():
+    print(" FIN DEL PROCESO!")
 
 def load_products():
     print(f" INICIO LOAD PRODUCTS")
@@ -67,14 +69,19 @@ def load_products():
 with DAG(
     dag_id="test_print", schedule="@once", start_date=datetime(2023, 2, 1), is_paused_upon_creation=False, catchup=False
 ) as dag:
-    envio_correo = PythonOperator(
-        task_id='envio_correo',
-        python_callable=flujo_envio,
+    step_start = PythonOperator(
+        task_id='step_start_id',
+        python_callable=start_process,
         dag=dag
     )
     step_load = PythonOperator(
-        task_id='load_products',
+        task_id='load_products_id',
         python_callable=load_products,
         dag=dag
     )
-    envio_correo>>step_load
+    step_end = PythonOperator(
+        task_id='step_start_id',
+        python_callable=end_process,
+        dag=dag
+    )
+    step_start>>step_load>>step_end
