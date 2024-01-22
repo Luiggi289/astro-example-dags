@@ -7,6 +7,7 @@ import os
 from pymongo import MongoClient
 from pandas import DataFrame
 import pandas as pd
+from google.cloud import bigquery
 
 def get_connect_mongo():
 
