@@ -31,6 +31,37 @@ def load_products():
     products_df['product_description'] = products_df['product_description'].astype(str)
     products_rows=len(products_df)
     print(f" Se obtuvo  {products_rows}  Filas")
+    products_rows=len(products_df)
+    if products_rows>0 :
+        client = bigquery.Client()
+        table_id =  "premium-guide-410714.dep_raw.products"
+        job_config = bigquery.LoadJobConfig(
+            schema=[
+                bigquery.SchemaField("_id", bigquery.enums.SqlTypeNames.STRING),
+                bigquery.SchemaField("product_id", bigquery.enums.SqlTypeNames.INTEGER),
+                bigquery.SchemaField("product_category_id", bigquery.enums.SqlTypeNames.INTEGER),
+                bigquery.SchemaField("product_name", bigquery.enums.SqlTypeNames.STRING),
+                bigquery.SchemaField("product_description", bigquery.enums.SqlTypeNames.STRING),
+                bigquery.SchemaField("product_price", bigquery.enums.SqlTypeNames.FLOAT),
+                bigquery.SchemaField("product_image", bigquery.enums.SqlTypeNames.STRING),
+            ],
+            write_disposition="WRITE_TRUNCATE",
+        )
+
+
+        job = client.load_table_from_dataframe(
+            products_df, table_id, job_config=job_config
+        )  
+        job.result()  # Wait for the job to complete.
+
+        table = client.get_table(table_id)  # Make an API request.
+        print(
+            "Loaded {} rows and {} columns to {}".format(
+                table.num_rows, len(table.schema), table_id
+            )
+        )
+    else : 
+        print('alerta no hay registros en la tabla productos')
 
 with DAG(
     dag_id="test_print", schedule="@once", start_date=datetime(2023, 2, 1), is_paused_upon_creation=False, catchup=False
