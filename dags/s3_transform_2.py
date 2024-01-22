@@ -7,7 +7,6 @@ import os
 from pymongo import MongoClient
 from pandas import DataFrame
 import pandas as pd
-from google.cloud import bigquery
 
 def get_connect_mongo():
 
@@ -34,7 +33,7 @@ def load_products():
     print(f" Se obtuvo  {products_rows}  Filas")
     products_rows=len(products_df)
     if products_rows>0 :
-        client = bigquery.Client()
+        client = bigquery.Client(project='premium-guide-410714')
         table_id =  "premium-guide-410714.dep_raw.products"
         job_config = bigquery.LoadJobConfig(
             schema=[
