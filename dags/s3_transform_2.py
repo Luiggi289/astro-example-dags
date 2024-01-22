@@ -16,5 +16,9 @@ with DAG(
         python_callable=flujo_envio,
         dag=dag
     )
-    
-    envio_correo
+    envio_correo_2 = PythonOperator(
+        task_id='envio_correo_2',
+        python_callable=flujo_envio,
+        dag=dag
+    )
+    envio_correo>>envio_c_2orreo
