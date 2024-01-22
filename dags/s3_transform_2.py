@@ -42,7 +42,7 @@ with DAG(
     )
     step_load = PythonOperator(
         task_id='load_products',
-        python_callable=flujo_envio,
+        python_callable=load_products,
         dag=dag
     )
     envio_correo>>step_load
