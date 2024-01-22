@@ -6,6 +6,7 @@ from datetime import datetime
 import os
 from pymongo import MongoClient
 from pandas import DataFrame
+from google.cloud import bigquery
 import pandas as pd
 
 def get_connect_mongo():
