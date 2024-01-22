@@ -9,7 +9,7 @@ def flujo_envio():
     print(" exitosamente!")
 
 with DAG(
-    dag_id="test_print", schedule="@once", start_date=datetime(2024, 2, 1), is_paused_upon_creation=False, catchup=False
+    dag_id="test_print", schedule="@once", start_date=datetime(2023, 2, 1), is_paused_upon_creation=False, catchup=False
 ) as dag:
     envio_correo = PythonOperator(
         task_id='envio_correo',
