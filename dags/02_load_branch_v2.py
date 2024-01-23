@@ -39,7 +39,7 @@ def fun_load_bi():
     
 
 with DAG(
-    dag_id="load_branch", 
+    dag_id="load_branch_v2", 
     schedule="20 04 * * *", 
     start_date=days_ago(2), 
     default_args=default_args,
@@ -71,6 +71,7 @@ with DAG(
     load_bi = PythonOperator(
         task_id='load_bi',
         python_callable=fun_load_bi,
+        trigger_rule='all_done​',
         dag=dag
     )
     load_raw>>branch>>[load_master_complete,load_master_delta]>>load_bi
