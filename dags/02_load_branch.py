@@ -71,6 +71,7 @@ with DAG(
     load_bi = PythonOperator(
         task_id='load_bi',
         python_callable=fun_load_bi,
+        trigger_rule='all_success​',
         dag=dag
     )
     load_raw>>branch>>[load_master_complete,load_master_delta]>>load_bi
