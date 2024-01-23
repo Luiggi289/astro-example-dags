@@ -1,31 +1,76 @@
-from datetime import datetime 
-from airflow import DAG 
-from airflow.operators.dummy import DummyOperator 
+from airflow import DAG
+from airflow.operators.python import PythonOperator
 from airflow.operators.python import BranchOperator 
+from airflow.models.connection import Connection
+from time import time_ns
+from datetime import datetime , timedelta
+from airflow.utils.dates import days_ago
+from datetime import date 
 
-def choose_branch(**kwargs): 
-    if datetime.now().weekday() < 5: 
-        return 'weekday_task' 
-    else: 
-        return 'weekend_task' 
-        
-dag = DAG( 
-    dag_id='branch_operator_example', 
-    start_date=datetime(2022, 1, 1), 
-    schedule_interval='@daily', ) 
+default_args = {
+    'owner': 'Datapath',
+    'depends_on_past': False,
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=1),
+}
     
-start = DummyOperator(task_id='start', dag=dag) 
+def fun_load_raw():
+    print(" Se cargo raw1!")
 
-branch = BranchOperator( 
+def fun_load_master_complete():
+    print(" Se cargo load_master_complete!")
+
+   
+    
+def fun_load_master_delta():
+    print(" Se cargo Master Delta!")
+    
+def fun_branch():
+    today = date.today()
+    if today.weekday()==1 :
+        return "load_master_complete"
+    else :
+        return "load_master_delta"
+        
+def fun_load_bi():
+    print(" Hola Airflow!")
+    
+
+with DAG(
+    dag_id="load_branch", 
+    schedule="20 04 * * *", 
+    start_date=days_ago(2), 
+    default_args=default_args,
+    description='Prueba de Dag'
+) as dag:
+    load_raw = PythonOperator(
+        task_id='load_raw',
+        python_callable=fun_load_raw,
+        dag=dag
+    )
+    
+    branch = BranchOperator( 
     task_id='branch', 
-    python_callable=choose_branch, 
+    python_callable=fun_branch, 
     provide_context=True, 
     dag=dag, 
 ) 
 
-weekday_task = DummyOperator(task_id='weekday_task', dag=dag) 
-weekend_task = DummyOperator(task_id='weekend_task', dag=dag) 
-
-end = DummyOperator(task_id='end', dag=dag) 
-
-start >> branch >> [weekday_task, weekend_task] >> end
+    load_master_complete = PythonOperator(
+        task_id='load_master_complete',
+        python_callable=fun_load_master_complete,
+        dag=dag
+    )
+    load_master_delta = PythonOperator(
+        task_id='load_master_delta',
+        python_callable=fun_load_master_delta,
+        dag=dag
+    )
+    load_bi = PythonOperator(
+        task_id='load_bi',
+        python_callable=fun_load_bi,
+        dag=dag
+    )
+    load_raw>>branch>>[load_master_complete,load_master_delta]>>load_bi
