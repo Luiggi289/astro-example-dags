@@ -28,7 +28,7 @@ def load_raw_1():
 
 with DAG(
     dag_id="mi_primer_dag_paralelo", schedule="00 05 * * *", 
-    start_date=days_ago(1), 
+    start_date=days_ago(2), 
     default_args=default_args,
     description='Prueba de Dag'
 ) as dag:
