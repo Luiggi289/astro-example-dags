@@ -3,8 +3,17 @@ from airflow.operators.python import PythonOperator
 from airflow.models.connection import Connection
 from time import time_ns
 from datetime import datetime
+from airflow.utils.dates import days_ago
 
-    
+default_args = {
+    'owner': 'Clinica Internacional',
+    'depends_on_past': False,
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 0,
+    'retry_delay': timedelta(minutes=1),
+}
+
 def start_process():
     print(" INICIO EL PROCESO!")
 
@@ -18,7 +27,10 @@ def load_raw_1():
     print(" Hola Raw 1!")
 
 with DAG(
-    dag_id="mi_primer_dag", schedule="@once", start_date=datetime(2024, 1, 22), is_paused_upon_creation=False, catchup=False
+    dag_id="mi_primer_dag", schedule="00 05 * * *", 
+    start_date=days_ago(1), 
+    default_args=default_args,
+    description='Prueba de Dag'
 ) as dag:
     step_start = PythonOperator(
         task_id='step_start',
