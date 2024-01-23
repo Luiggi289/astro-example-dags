@@ -54,5 +54,5 @@ with DAG(
     )
     step_start>>step_load_raw_1
     step_start>>step_load_raw_2
-    step_load_raw_1>>load_master
-    step_load_raw_2>>load_master
+    step_load_raw_1>>step_master
+    step_load_raw_2>>step_master
