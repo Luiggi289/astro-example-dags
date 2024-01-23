@@ -65,4 +65,4 @@ with DAG(
         python_callable=fun_load_bi,
         dag=dag
     )
-    load_raw>>load_bi
+    load_raw>>branch_op>>[load_master_complete,load_master_delta]>>load_bi
