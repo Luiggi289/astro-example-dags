@@ -77,7 +77,7 @@ def load_products():
         print('alerta no hay registros en la tabla productos')
 
 with DAG(
-    dag_id="load_products", schedule="@once", start_date=datetime(2023, 2, 1), is_paused_upon_creation=False, catchup=False
+    dag_id="load_project", schedule="@once", start_date=datetime(2023, 2, 1), is_paused_upon_creation=False, catchup=False
 ) as dag:
     step_start = PythonOperator(
         task_id='step_start_id',
