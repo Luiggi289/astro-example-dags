@@ -4,7 +4,7 @@ from airflow.models.connection import Connection
 from time import time_ns
 from datetime import datetime , timedelta
 from airflow.utils.dates import days_ago
-
+from datetime import date
 
 default_args = {
     'owner': 'Datapath',
