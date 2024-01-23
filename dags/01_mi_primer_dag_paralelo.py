@@ -2,15 +2,15 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.models.connection import Connection
 from time import time_ns
-from datetime import datetime
+from datetime import datetime , timedelta
 from airflow.utils.dates import days_ago
 
 default_args = {
-    'owner': 'Clinica Internacional',
+    'owner': 'Datapath',
     'depends_on_past': False,
-    'email_on_failure': False,
+    'email_on_failure': 'moralesmeza28@gmail.com',
     'email_on_retry': False,
-    'retries': 0,
+    'retries': 1,
     'retry_delay': timedelta(minutes=1),
 }
 
