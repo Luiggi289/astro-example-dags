@@ -1,7 +1,8 @@
 from datetime import datetime 
 from airflow import DAG 
 from airflow.operators.dummy import DummyOperator 
-from airflow.operators.python import BranchOperator 
+from airflow.operators.python import BranchPythonOperator 
+from airflow.hooks import BashOperator
 
 def choose_branch(**kwargs): 
     if datetime.now().weekday() < 5: 
@@ -16,11 +17,11 @@ dag = DAG(
     
 start = DummyOperator(task_id='start', dag=dag) 
 
-branch = BranchOperator( 
+branch = BranchPythonOperator( 
     task_id='branch', 
     python_callable=choose_branch, 
     provide_context=True, 
-    dag=dag, 
+    dag=dag
 ) 
 
 weekday_task = DummyOperator(task_id='weekday_task', dag=dag) 
