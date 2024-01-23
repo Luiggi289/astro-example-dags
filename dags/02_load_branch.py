@@ -1,6 +1,5 @@
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.operators.python import BranchOperator 
+from airflow.operators.python import PythonOperator 
 from airflow.models.connection import Connection
 from time import time_ns
 from datetime import datetime , timedelta
@@ -51,11 +50,11 @@ with DAG(
         dag=dag
     )
     
-    branch = BranchOperator( 
+    branch = PythonOperator( 
     task_id='branch', 
     python_callable=fun_branch, 
     provide_context=True, 
-    dag=dag, 
+    dag=dag
 ) 
 
     load_master_complete = PythonOperator(
