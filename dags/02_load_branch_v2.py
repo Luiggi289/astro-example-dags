@@ -39,7 +39,7 @@ def fun_load_bi():
     
 
 with DAG(
-    dag_id="load_branch_v2", 
+    dag_id="load_branch_v2",
     schedule="20 04 * * *", 
     start_date=days_ago(2), 
     default_args=default_args,
