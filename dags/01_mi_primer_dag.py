@@ -11,24 +11,24 @@ def start_process():
 def end_process():
     print(" FIN DEL PROCESO!")
 
-def load_products():
+def load():
     print(" Hola Airflow!")
 
 with DAG(
     dag_id="mi_primer_dag", schedule="@once", start_date=datetime(2024, 1, 22), is_paused_upon_creation=False, catchup=False
 ) as dag:
     step_start = PythonOperator(
-        task_id='step_start_id',
+        task_id='step_start',
         python_callable=start_process,
         dag=dag
     )
     step_load = PythonOperator(
-        task_id='load_products_id',
-        python_callable=load_products,
+        task_id='step_load',
+        python_callable=load,
         dag=dag
     )
     step_end = PythonOperator(
-        task_id='step_end_id',
+        task_id='step_end',
         python_callable=end_process,
         dag=dag
     )
