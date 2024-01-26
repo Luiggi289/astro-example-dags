@@ -15,7 +15,7 @@ default_args = {
 }
 
 def start_process():
-    print(" INICIO EL PROCESO! cambio por remoto en clases")
+    print(" INICIO EL PROCESO! cambio por remoto en clases 02")
 
 def load_master():
     print(" Load Master!")
