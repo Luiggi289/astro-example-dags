@@ -15,7 +15,7 @@ default_args = {
 }
 
 def start_process():
-    print(" INICIO EL PROCESO GIT!")
+    print(" INICIO EL PROCESO GIT! Cambio hecho por EgoLuis")
 
 def load_master():
     print(" Load Master!")
